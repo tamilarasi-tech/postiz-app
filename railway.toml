@@ -1,27 +1,7 @@
-[phases.setup]
-nixPkgs = ['nodejs', 'python3', 'docker']
-aptPkgs = ['build-essential', 'libudev-dev']
-
 [build]
-builder = "NIXPACKS"
-buildCommand = "npm run build"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile.railway"
 
 [deploy]
-runtime = "V2"
-numReplicas = 1
-startCommand = "PORT=3000 npm run docker-create"
-sleepApplication = false
-multiRegionConfig = { "us-west1" = { numReplicas = 1 } }
 restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
-
-[services]
-  [services.proxy]
-  internalPort = 5000
-  exposedPort = 5000
-
-  [services.backend]
-  internalPort = 3000
-
-  [services.frontend]
-  internalPort = 3000
+restartPolicyMaxRetries = 3
